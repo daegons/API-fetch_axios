@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <h1>눌러 새로운 죠크를</h1>
+    <button>클릭미</button>
+    <ul id="jokes"></ul>
+    <script src="./fetch_axios.js"></script>
+    <!-- <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script> -->
+    <script>
+      //axios 사용법
+      //스크립트 axios CDN  html상단 타이틀에 꽂아야 됨
+      const jokes = document.querySelector('#jokes');
+      const button = document.querySelector('button');
+
+      const addNewJoke = async () => {
+        const jokeText = await getDadJoke();
+        const newLI = document.createElement('li');
+        newLI.append(jokeText);
+        jokes.append(newLI);
+      };
+      const getDadJoke = async () => {
+        try {
+          const config = { headers: { Accept: 'application/json' } };
+          const res = await axios.get('https://icanhazdadjoke.com/', config);
+          return res.data.joke;
+        } catch (e) {
+          return 'nononono sorry :(';
+        }
+      };
+      getDadJoke();
+
+      // 아이디jokes(ul)부르고
+      //newLI(li) 만들어서 (res.data.joke)붙이고
+      //아이디jokes(ul)에 다시 newLI(li) 붙인다
+      button.addEventListener('click', addNewJoke);
+    </script>
+  </body>
+</html>
